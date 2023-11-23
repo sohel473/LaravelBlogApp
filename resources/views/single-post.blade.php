@@ -22,8 +22,7 @@
         </div>
 
         <p class="text-muted small mb-4">
-            <a href="#"><img class="avatar-tiny"
-                    src="https://gravatar.com/avatar/f64fc44c03a8a7eb1d52502950879659?s=128" /></a>
+            <a href="#"><img class="avatar-tiny" src={{ auth()->user()->avatar }} /></a>
             Posted by <a href="/profile/{{ $post->user->id }}">
                 {{ $post->user->username }}
             </a> on {{ $post->created_at->format('n/j/Y') }}

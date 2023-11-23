@@ -76,21 +76,26 @@ class PostController extends Controller
     }
 
     public function deletePost(Post $post) {
-        // Ensure the user is authenticated
-        if (!Auth::check()) {
-            return redirect('login')->withErrors('You must be logged in to delete a post.');
-        }
     
         try {
             $this->authorize('delete', $post);
-            $post->delete();
-    
-            return redirect('/')->with('success', 'Post was deleted successfully.');
         } catch (AuthorizationException $e) {
             // Redirect back with an error message if the user is not authorized
             return $e->getMessage() .". You do not have permission to delete this post.";
         }
+        
+        $post->delete();
     
+        return redirect('/')->with('success', 'Post was deleted successfully.');
+    }
+
+    public function searchPosts($search) {
+    
+        $posts = Post::where('title', 'like', "%{$search}%")
+            ->orWhere('body', 'like', "%{$search}%")
+            ->get();
+    
+        return $posts;
     }
     
 }
